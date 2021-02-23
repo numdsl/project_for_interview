@@ -7,13 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="310*"/>
-            <ColumnDefinition Width="207*"/>
-        </Grid.ColumnDefinitions>
         <Button x:Name="button" Content="start" Click="button_click" HorizontalAlignment="Left" Margin="87,139,0,0" VerticalAlignment="Top" Width="75"/>
-        <Label x:Name="label" Content="Label" HorizontalAlignment="Left" Margin="158,201,0,0" VerticalAlignment="Top"/>
         <Button x:Name="button1" Content="pause" Click="button1_click" HorizontalAlignment="Left" Margin="210,139,0,0" VerticalAlignment="Top" Width="75"/>
-
+        <Button x:Name="button2" Content="stop" Click="button2_click" HorizontalAlignment="Left" Margin="339,139,0,0" VerticalAlignment="Top" Width="75"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="190,207,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
     </Grid>
 </Window>

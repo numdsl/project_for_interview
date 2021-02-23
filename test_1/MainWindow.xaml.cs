@@ -21,17 +21,32 @@ namespace test_1
     /// </summary>
     public partial class MainWindow : Window
     {
+        Thread th { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
+            textBox.Text = string.Empty;
+
+            this.Closing += MainWindow_Closing;
         }
 
-        Thread th { get; set; }
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (th == null)
+                return;
+
+            th.Abort();
+        }
 
         public void button_click(object sender, RoutedEventArgs e)
         {
+            if (th != null && (th.ThreadState == ThreadState.Running || th.ThreadState == ThreadState.WaitSleepJoin))
+                return;
+
             th = new Thread(Increment);
             th.Name = "thread1";
+            textBox.Dispatcher.Invoke(new Action(() => textBox.Text = string.Empty));
             th.Start();
         }
 
@@ -42,24 +57,30 @@ namespace test_1
 
             if (th.ThreadState == ThreadState.Suspended)
                 th.Resume();
-            else
+            else if (th.ThreadState == ThreadState.Running || th.ThreadState == ThreadState.WaitSleepJoin)
                 th.Suspend();
-
         }
 
-        static void Increment()
+        public void button2_click(object sender, RoutedEventArgs e)
+        {
+            if (th == null)
+                return;
+
+            th.Abort();
+        }
+
+        public void Increment()
         {
             var x = 0;
-            for (var i = 0; i < 10; i++)
+            for (;;)
             {
                 x++;
-                Thread.Sleep(500);
+                if (x % 10 == 0)
+                {
+                    textBox.Dispatcher.Invoke(new Action(() => textBox.Text = x.ToString()));
+                    Thread.Sleep(1000);
+                }
             }
-
-            
-
-            MessageBox.Show(x.ToString());
         }
-
     }
 }
